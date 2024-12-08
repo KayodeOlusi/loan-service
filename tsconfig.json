@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "baseUrl": "./src",
+    "types": ["node"],
+    "typeRoots": ["node_modules/@types"],
     "allowUnreachableCode": false,
     "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "Node16",
     "noImplicitAny": true,
     "resolveJsonModule": true,
     "noImplicitReturns": false,
@@ -16,11 +13,17 @@
     "noUnusedLocals": false,
     "sourceMap": true,
     "strictNullChecks": true,
-    "strict": true,
     "pretty": true,
-    "target": "es6",
-    "typeRoots": ["./src/typings", "../../node_modules/@types"],
-    "outDir": "build"
+    "outDir": "build",
+    "target": "es2016",
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["./**/*.ts"],
   "exclude": ["node_modules", "build", "dist"]
