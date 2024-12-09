@@ -1,6 +1,9 @@
 import dotenv from "dotenv";
 import "reflect-metadata";
 import cors from "cors";
+import dbSync from "./utils/db.sync";
+import { buildAppRoutes } from "./api/routes/initializer";
+import reqLogger from "./api/middlewares/req.middleware";
 import express, { Request, Response, NextFunction } from "express";
 
 dotenv.config();
@@ -11,6 +14,12 @@ app.use(
     origin: "*",
   })
 );
+app.use(reqLogger);
+
+(function () {
+  dbSync.migrate();
+})();
+buildAppRoutes(app);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
