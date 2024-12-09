@@ -1,7 +1,7 @@
 {
   "name": "loan-service",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/app.ts",
   "repository": "https://github.com/KayodeOlusi/loan-service.git",
   "author": "KayodeOlusi <kayodeolusi@gmail.com>",
   "license": "MIT",
