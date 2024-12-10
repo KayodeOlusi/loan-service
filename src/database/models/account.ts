@@ -1,6 +1,6 @@
 'use strict';
 import {
-  DataTypes, InferAttributes, 
+  DataTypes, InferAttributes,
   InferCreationAttributes,
   Model, CreationOptional
 } from "sequelize";
@@ -25,6 +25,9 @@ class Account extends Model<InferAttributes<Account>, InferCreationAttributes<Ac
    */
   static associate(models: ModelType["models"]) {
     // define association here
+    Account.belongsTo(models.User, {
+      foreignKey: "user_id"
+    });
   }
 }
 
@@ -44,4 +47,7 @@ Account.init({
   sequelize: db.sequelize,
   modelName: 'Account',
 });
+
+export default Account;
+
 
