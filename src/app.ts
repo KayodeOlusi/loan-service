@@ -19,6 +19,7 @@ app.use(reqLogger);
 (function () {
   dbSync.migrate();
 })();
+
 buildAppRoutes(app);
 
 const PORT = process.env.PORT || 8000;

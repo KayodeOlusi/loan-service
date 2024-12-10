@@ -22,7 +22,7 @@ class ApiBuilders {
     result.message = obj.message;
     if (obj.data) result.data = obj.data;
 
-    res.status(obj.code).json(result);
+   res.status(obj.code).json(result);
   }
 }
 

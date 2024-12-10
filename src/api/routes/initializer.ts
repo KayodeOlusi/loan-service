@@ -1,10 +1,15 @@
 import { Express } from "express";
-import { ApiBuilders } from "../../api/api.builders";
+import UserRoutes from "./user.route";
+import { ApiBuilders } from "../api.builders";
 import { HttpStatusCodes } from "../../lib/codes";
+
+function baseRoutes(route: string = "") {
+  return "/api" + route;
+}
 
 function buildAppRoutes(app: Express) {
   (function () {
-    app.use("/api", (req, res) => {
+    app.get(baseRoutes("/"), (req, res) => {
       return ApiBuilders.buildResponse(res, {
         status: true,
         code: HttpStatusCodes.SUCCESSFUL_REQUEST,
@@ -12,6 +17,8 @@ function buildAppRoutes(app: Express) {
         data: null
       });
     });
+
+    app.use(baseRoutes("/user"), UserRoutes());
   })();
 }
 

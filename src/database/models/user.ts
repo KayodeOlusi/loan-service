@@ -2,7 +2,7 @@
 import {
   DataTypes, InferAttributes, 
   InferCreationAttributes,
-  Model, Optional, CreationOptional
+  Model, CreationOptional
 } from "sequelize";
 import db from "./index";
 import { ModelType } from "./types";
