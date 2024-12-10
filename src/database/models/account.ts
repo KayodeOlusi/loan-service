@@ -2,21 +2,18 @@
 import {
   DataTypes, InferAttributes, 
   InferCreationAttributes,
-  Model, Optional, CreationOptional
+  Model, CreationOptional
 } from "sequelize";
 import db from "./index";
 import { ModelType } from "./types";
 import { AccountStatus } from "../../typings/enums";
 
-class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+class Account extends Model<InferAttributes<Account>, InferCreationAttributes<Account>> {
   declare public id: CreationOptional<string>;
-  declare public first_name: string;
-  declare public last_name: string;
-  declare public account_status: AccountStatus;
-  declare public email: string;
-  declare public password: string;
-  declare public is_verified: boolean;
-  declare phone_number: string;
+  declare public user_id: string;
+  declare public status: AccountStatus;
+  declare public account_number: string;
+  declare public balance: number;
 
   declare public readonly createdAt: Date;
   declare public readonly updatedAt: Date;
@@ -31,23 +28,20 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   }
 }
 
-User.init({
+Account.init({
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
-  first_name: DataTypes.STRING,
-  last_name: DataTypes.STRING,
-  account_status: DataTypes.ENUM("ACTIVE", "SUSPENDED"),
-  email: DataTypes.STRING,
-  password: DataTypes.STRING,
-  is_verified: DataTypes.BOOLEAN,
-  phone_number: DataTypes.STRING,
+  user_id: DataTypes.STRING,
+  account_number: DataTypes.STRING,
+  balance: DataTypes.DECIMAL(30, 2),
+  status: DataTypes.ENUM("ACTIVE", "SUSPENDED"),
   createdAt: DataTypes.DATE,
   updatedAt: DataTypes.DATE,
 }, {
   sequelize: db.sequelize,
-  modelName: 'User',
+  modelName: 'Account',
 });
 
