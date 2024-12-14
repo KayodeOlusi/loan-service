@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": "./src",
+    "allowUnreachableCode": false,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false, // Allows variables without explicit types
+    "noImplicitReturns": false,
+    "noImplicitThis": false, // Disables errors for `this` having implicit type `any`
+    "noUnusedLocals": false,
+    "sourceMap": true,
+    "strictNullChecks": false, // Loosens checks for `null` and `undefined`
+    "strict": false, // Disables all strict mode checks
+    "pretty": true,
+    "typeRoots": ["./src/typings", "./node_modules/@types"],
+    "outDir": "build",
+    "target": "ES2019",            // Ensures modern async/await support
+    "module": "commonjs",          // For Node.js compatibility
+  },
+  "include": ["./**/*.ts", "./**/*.js"],
+  "exclude": ["node_modules", "build", "dist"]
+}
