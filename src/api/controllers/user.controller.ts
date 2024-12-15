@@ -3,17 +3,17 @@ import { ApiBuilders } from "../api.builders";
 import { Request, Response } from "express";
 import { HttpStatusCodes } from "../../lib/codes";
 import { UserCreationBody } from "../../typings/user";
-import { BadRequestException, Exception } from "../../lib/errors";
+import { Exception } from "../../lib/errors";
 import { EncryptService, UserService } from "../services";
 import { AccountStatus } from "../../typings/enums";
+import AccountService from "../services/account.service";
 
 class UserController {
   private static async _createUserRecord(data: UserCreationBody) {
-    try {
-      return await UserService.createRecord(data);
-    } catch (e) {
-      return null;
-    }
+    const user = await UserService.createUser(data);
+    if (!user) throw new Exception("Error creating user account. Try again later");
+
+    return user;
   }
 
   static async register(req: Request, res: Response) {
@@ -58,22 +58,14 @@ class UserController {
       };
 
       const user = await UserController._createUserRecord(data);
-      if (!user) throw new Exception("Error creating user account. Try again later");
+      await AccountService.createAccount(user.id);
 
-
-      // TODO:
-      /**
-       * 1. create hash password function ✅
-       * 2. hash passowrd, ✅
-       * 3. create token function, ✅
-       * 4. save user record, ✅
-       * 5. create account for user,
-       * 6. send back token and user created details
-       * */
+      let newUser = { ...user.toJSON() };
+      delete newUser.password;
 
       return ApiBuilders.buildResponse(res, {
         status: true,
-        data: user,
+        data: newUser,
         code: HttpStatusCodes.RESOURCE_CREATED,
         message: "User account has been created successfully"
       });
@@ -85,7 +77,7 @@ class UserController {
       return ApiBuilders.buildResponse(res, {
         status: false,
         code: error.code || HttpStatusCodes.SERVER_ERROR,
-        message: error.message || "An error occured, Try again later",
+        message: error.message || "An error occurred, Try again later",
         data: null
       });
     }

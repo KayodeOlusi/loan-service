@@ -1,31 +1,31 @@
 import db from "../../database/models/db.initializer";
 import { AccountAttributes, AccountCreationBody } from "../../typings/account";
-import { FindOptions, UpdateOptions, DestroyOptions, Optional } from "sequelize";
+import { FindOptions, UpdateOptions, DestroyOptions, Optional, CreateOptions } from "sequelize";
 class AccountDao {
   constructor() {
   }
 
-  async fetchOne(query: FindOptions) {
+  static async fetchOne(query: FindOptions) {
     return await db.models.Account.findOne(query);
   }
 
-  async fetchAll(query: FindOptions) {
+  static async fetchAll(query: FindOptions) {
     return await db.models.Account.findAll(query);
   }
 
-  async fetchByPk(key: string) {
+  static async fetchByPk(key: string) {
     return await db.models.Account.findByPk(key);
   }
 
-  async create(record: Optional<AccountAttributes, never>) {
-    return await db.models.Account.create(record);
+  static async create(record: Optional<AccountAttributes, never>, opts?: CreateOptions) {
+    return await db.models.Account.create(record, opts);
   }
 
-  async updateOne(record: Partial<AccountCreationBody>, query: UpdateOptions) {
+  static async updateOne(record: Partial<AccountCreationBody>, query: UpdateOptions) {
     return await db.models.Account.update(record, query);
   }
 
-  async delete(query: DestroyOptions) {
+  static async delete(query: DestroyOptions) {
     return await db.models.Account.destroy(query);
   }
 }

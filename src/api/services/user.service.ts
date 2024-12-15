@@ -10,7 +10,7 @@ class UserService {
     });
   }
 
-  static async createRecord(user: UserCreationBody) {
+  static async createUser(user: UserCreationBody) {
     let record = user as UserAttributes;
     return await UserDao.create(record);
   }

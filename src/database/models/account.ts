@@ -13,6 +13,7 @@ class Account extends Model<AccountAttributes> implements AccountAttributes {
   public balance!: number;
   public user_id!: string;
   public status!: AccountStatus;
+  public account_number!: string;
 
   public readonly updatedAt!: Date;
   public readonly createdAt!: Date;
@@ -40,6 +41,7 @@ Account.init({
   balance: DataTypes.DECIMAL(30, 2),
   status: DataTypes.ENUM("ACTIVE", "SUSPENDED"),
   createdAt: DataTypes.DATE,
+  account_number: DataTypes.STRING,
   updatedAt: DataTypes.DATE,
 }, {
   sequelize: db.sequelize,
