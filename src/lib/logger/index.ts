@@ -1,11 +1,21 @@
 import * as winston from "winston";
 
+const logFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
+  return `${timestamp} ${level}: ${stack || message}`;
+});
+
 const logger = winston.createLogger({
+  format: winston.format.combine(
+    winston.format.errors({ stack: true }), // Process stack first
+    winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" })
+  ),
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(
-        winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-        winston.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
+        winston.format.colorize(), // Apply colorize only to console
+        winston.format.printf(({ level, message, timestamp, stack }) =>
+          `${timestamp} ${level}: ${stack || message}`
+        )
       )
     }),
     new winston.transports.File({
@@ -13,7 +23,10 @@ const logger = winston.createLogger({
       level: "error",
       format: winston.format.combine(
         winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-        winston.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
+        winston.format.errors({ stack: true }),
+        winston.format.printf(({ level, message, timestamp, stack }) =>
+          `${timestamp} ${level}: ${stack || message}`
+        )
       )
     })
   ]
@@ -30,7 +43,7 @@ class Logger {
 
   static error(message: string, error: Error) {
     logger.error(message, {
-      stack: error.stack,
+      stack: error.stack
     });
   }
 }
