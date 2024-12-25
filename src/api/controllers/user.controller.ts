@@ -84,12 +84,55 @@ class UserController {
   }
 
   static async login(req: Request, res: Response) {
-    return ApiBuilders.buildResponse(res, {
-      status: true,
-      code: HttpStatusCodes.SUCCESSFUL_REQUEST,
-      data: null,
-      message: "Login Success!!!"
-    });
+    try {
+      const { email, password } = req.body;
+
+      const user = await UserService.getUserByField({
+        email: email.trim().toLocaleLowerCase()
+      });
+      if (!user) {
+        return ApiBuilders.buildResponse(res, {
+          status: false,
+          code: HttpStatusCodes.BAD_REQUEST,
+          message: "User does not exist",
+          data: null
+        });
+      }
+
+      const passwordMatch = await EncryptService.compare(password, user.password);
+      if (!passwordMatch) {
+        return ApiBuilders.buildResponse(res, {
+          status: false,
+          code: HttpStatusCodes.VALIDATION_ERROR,
+          message: "Invalid login details",
+          data: null,
+        });
+      }
+
+      const _token = EncryptService.generateToken(user);
+      const data = {
+        token: _token,
+        ...user
+      };
+
+      delete data.password;
+      return ApiBuilders.buildResponse(res, {
+        data,
+        code: HttpStatusCodes.SUCCESSFUL_REQUEST,
+        message: "User logged in successfully",
+        status: true
+      })
+    } catch (e) {
+      const error = e as Exception;
+
+      Logger.error(error.message, error);
+      return ApiBuilders.buildResponse(res, {
+        status: false,
+        code: error.code || HttpStatusCodes.SERVER_ERROR,
+        message: error.message || "An error occurred, Try again later",
+        data: null
+      });
+    }
   }
 }
 
