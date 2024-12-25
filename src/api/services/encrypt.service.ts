@@ -1,11 +1,12 @@
+import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import * as process from "process";
 
+dotenv.config();
 const saltRounds = 10;
 class EncryptService {
   private static _createToken(data: any) {
-    return jwt.sign(data, process.env.TOKEN_ID, {
+    return jwt.sign({ data }, process.env.TOKEN_ID, {
       expiresIn: "300000"
     });
   }

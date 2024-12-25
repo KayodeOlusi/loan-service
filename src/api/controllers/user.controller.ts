@@ -112,7 +112,7 @@ class UserController {
       const _token = EncryptService.generateToken(user);
       const data = {
         token: _token,
-        ...user
+        ...user.toJSON()
       };
 
       delete data.password;
