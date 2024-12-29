@@ -53,10 +53,32 @@ class NotFoundException extends Error implements ErrorCode {
   }
 }
 
+class UnauthorizedException extends Error implements ErrorCode {
+  code: number;
+
+  constructor(message: string) {
+    super(message);
+    this.name = "UnauthorizedException";
+    this.code = HttpStatusCodes.UNAUTHORIZED;
+  }
+}
+
+class ForbiddenException extends Error implements ErrorCode {
+  code: number;
+
+  constructor(message: string) {
+    super(message);
+    this.name = "ForbiddenException";
+    this.code = HttpStatusCodes.FORBIDDEN;
+  }
+}
+
 export {
   Exception,
   NotFoundException,
   ValidationException,
   BadRequestException,
   ResourceExistsException,
+  ForbiddenException,
+  UnauthorizedException
 }

@@ -21,6 +21,10 @@ class EncryptService {
   static async compare(data: string, encrypted: string) {
     return await bcrypt.compare(data, encrypted);
   }
+
+  static verify(token: string, compare: string) {
+    return jwt.verify(token, compare);
+  }
 }
 
 export default EncryptService;
